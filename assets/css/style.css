@@ -1,19 +1,21 @@
 /* --- IMPORTS --- */
-
+@import url('https://fonts.googleapis.com/css2?family=Acme&family=Fredoka:wght@300..700&family=Spicy+Rice&display=swap');
 
 
 /* --- VARIABLES --- */
 :root {
 
     /* COLORS */
-    --primaryColor: gray;
-    --secondaryColor: lightGray;
-    --accentColor: lightSlateGray;
+    --primaryColor: #990000;
+    --secondaryColor: #D2691E;
+    --accentColor1: #D4AF37;
+    --accentColor2: #4C9085;
     --interactableColor: darkSlateGrey;
     --hoverButtonColor: dimGray;
     --disableButtonColor: silver;
-    --backgroundColor: whiteSmoke;
-    --baseTextDarkColor: black;
+    --backgroundColor: #e9e5ce;
+    --baseTextDarkColor: #292422;
+    --baseTextLightColor: #f5f5e7;
 
 
     /* TEXT  */
@@ -21,11 +23,9 @@
     --baseTextSizeMobile: .9rem;
 
     /* SPACING */
-    --smallSpacing: 10px;
-    --standardSpacing: 16px;
-    --mediumSpacing: 24px;
-    --largeSpacing: 35px;
-    --xLargeSpacing: 50px;
+    --gapSpacingMobile: 12px;
+    --gapSpacingDesktop: 32px;
+
 
     /* DETAILS */
     --borderRadius: 3px;
@@ -44,26 +44,36 @@
     grid-column: 1/-1;
 }
 
+.hidden {
+    display: none;
+}
+
 /* --- GENERALS --- */
+html {
+    font-family: "Fredoka", sans-serif;
+}
 
 body {
     margin: 0;
 }
 
+header {
+    padding: 10px;
+    background: var(--primaryColor);
+    outline: dashed 2px var(--secondaryColor);
+    outline-offset: -7px;
+
+}
+
 main {
     display: grid;
-    grid-template-columns: var(--standardSpacing) repeat(4, 1fr) var(--standardSpacing);
+    grid-template-columns: 15px repeat(4, 1fr) 15px;
 }
 
 section {
     grid-column: 2/-2;
 }
 
-article {}
-
-a {}
-
-i {}
 
 /* --- TEXT --- */
 h1,
@@ -118,4 +128,167 @@ a .btn {
 a .btn:hover {
     background: var(--hoverButtonColor);
     transform: scale(1.1);
+}
+
+/**** HEADER ****/
+.logo {
+    font-family: "Spicy Rice", system-ui;
+    font-size: 50px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--baseTextLightColor);
+    display: block;
+    filter: drop-shadow(2px 2px 2px var(--secondaryColor))
+}
+
+.desktopNav {
+    display: none;
+}
+
+.mobileNav {
+    position: relative;
+
+    button {
+        border: none;
+        background: none;
+        font-size: 25px;
+        position: absolute;
+        bottom: 15px;
+        right: 10px;
+        color: var(--baseTextLightColor);
+    }
+
+    .menu {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        z-index: 1000;
+        background: var(--primaryColor);
+        height: 100vh;
+        width: 80%;
+        right: -10px;
+        top: 10px;
+        padding: 10px;
+        transform: translateX(300px);
+        transition: .3s;
+
+        a {
+            color: var(--baseTextLightColor);
+            text-decoration: none;
+            padding: 8px 32px;
+            font-size: 1.3rem;
+        }
+
+    }
+
+    .mobileMenuAnimation {
+        transform: translateX(0px);
+
+    }
+}
+
+
+
+
+
+/* CAROUSEL */
+.carouselContainer {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px
+}
+
+.carousel {
+    height: 100%;
+    width: 65%;
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+li {
+    width: 100%;
+    /* Fast bredde for container */
+    height: 100%;
+    background: #333;
+    display: inline-block;
+    transition: all .8s ease-in-out;
+    margin: 0;
+}
+
+li p {
+    color: white;
+    font-weight: bold;
+    font-size: 5rem;
+    text-align: center;
+}
+
+.items {
+    position: absolute;
+}
+
+img {
+    width: 100%;
+    /* Billedet fylder hele bredden af containeren */
+    height: 100%;
+    /* Billedet fylder hele højden af containeren */
+    object-fit: cover;
+    /* Billedet beskæres og tilpasses uden forvrængning */
+    object-position: center;
+    /* Billedet centreres inde i containeren */
+}
+
+.main-pos {
+    z-index: 30;
+    box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.5);
+}
+
+.left-pos {
+    opacity: .3;
+    margin-left: -25%;
+    z-index: 10;
+    transform: scale(.75);
+}
+
+.back-pos {
+    margin-left: 2em;
+    opacity: .05;
+    transform: scale(.5);
+}
+
+.right-pos {
+    opacity: .3;
+    margin-left: 25%;
+    z-index: 10;
+    transform: scale(.75);
+}
+
+.buttonContainer {
+    position: relative;
+    margin: 10px auto;
+    display: block;
+    text-align: center;
+
+}
+
+@media screen and (max-width: 1200px) {
+    .carouselContainer {
+        height: 40vh;
+
+        .carousel {
+            width: 90%;
+        }
+
+        .left-pos {
+            margin-left: -20%;
+        }
+
+        .right-pos {
+            margin-left: 20%;
+        }
+    }
+
 }

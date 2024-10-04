@@ -104,4 +104,113 @@ function renderMovieCard(movie, placement, amount = movie.length) {
 
 
 
+// NAV MOBILE
 
+const navMobileButtonEl = document.querySelector(".mobileNavBtn")
+const navMobileMenuEl = document.querySelector(".menu")
+navMobileButtonEl.addEventListener("click", () => {
+    navMobileMenuEl.classList.toggle("mobileMenuAnimation")
+})
+
+// CAROUSEL
+
+// slideshow style interval
+// let autoSwap = setInterval(() => swap(), 5000);
+
+// pause slideshow and reinstantiate on mouseout
+document.querySelectorAll('ul, span').forEach(element => {
+    element.addEventListener('mouseenter', () => {
+        clearInterval(autoSwap);
+    });
+    element.addEventListener('mouseleave', () => {
+        // autoSwap = setInterval(() => swap(), 5000);
+    });
+});
+
+// global variables
+const items = [];
+let startItem = 1;
+let position = 0;
+const itemCount = document.querySelectorAll('.carousel li.items').length;
+const resetCount = itemCount;
+
+// gather text inside items class
+document.querySelectorAll('li.items').forEach((element, index) => {
+    items[index] = element.textContent;
+});
+
+// swap images function
+function swap(action = 'clockwise') {
+    const direction = action;
+
+    // moving carousel backwards
+    if (direction === 'counter-clockwise') {
+        let leftitem = parseInt(document.querySelector('.left-pos').id) - 1;
+        if (leftitem === 0) {
+            leftitem = itemCount;
+        }
+
+        document.querySelector('.right-pos').classList.replace('right-pos', 'back-pos');
+        document.querySelector('.main-pos').classList.replace('main-pos', 'right-pos');
+        document.querySelector('.left-pos').classList.replace('left-pos', 'main-pos');
+        document.getElementById(`${leftitem}`).classList.replace('back-pos', 'left-pos');
+
+        startItem--;
+        if (startItem < 1) {
+            startItem = itemCount;
+        }
+    }
+
+    // moving carousel forward
+    if (direction === 'clockwise') {
+        function pos(positionvalue) {
+            if (positionvalue !== 'leftposition') {
+                position++;
+                if ((startItem + position) > resetCount) {
+                    position = 1 - startItem;
+                }
+            }
+
+            if (positionvalue === 'leftposition') {
+                position = startItem - 1;
+                if (position < 1) {
+                    position = itemCount;
+                }
+            }
+
+            return position;
+        }
+
+        document.getElementById(`${startItem}`).classList.replace('main-pos', 'left-pos');
+        document.getElementById(`${startItem + pos()}`).classList.replace('right-pos', 'main-pos');
+        document.getElementById(`${startItem + pos()}`).classList.replace('back-pos', 'right-pos');
+        document.getElementById(`${pos('leftposition')}`).classList.replace('left-pos', 'back-pos');
+
+        startItem++;
+        position = 0;
+        if (startItem > itemCount) {
+            startItem = 1;
+        }
+    }
+}
+
+// next button click function
+document.getElementById('next').addEventListener('click', () => {
+    swap('clockwise');
+});
+
+// prev button click function
+document.getElementById('prev').addEventListener('click', () => {
+    swap('counter-clockwise');
+});
+
+// if any visible items are clicked
+document.querySelectorAll('li.items').forEach(item => {
+    item.addEventListener('click', () => {
+        if (item.classList.contains('left-pos')) {
+            swap('counter-clockwise');
+        } else {
+            swap('clockwise');
+        }
+    });
+});

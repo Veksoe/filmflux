@@ -12,12 +12,29 @@
     <link rel="icon" type="image/x-icon" href="./assets/img/"> <!-- UPDATE-->
     <link rel="stylesheet" href="./assets/css/style.css">
     <script src="./assets/javascript/app.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
     <header>
-        <a href="./index.html">FilmFlux</a>
-        <nav>
+        <a href="./index.html" class="logo">FilmFlux</a>
+        <nav class="mobileNav">
+            <button class="mobileNavBtn"><i class="fa-solid fa-bars"></i></button>
+            <div class="menu ">
+                <a href="#">Action</a>
+                <a href="#">Comedy</a>
+                <a href="#">Crime</a>
+                <a href="#">Documentary</a>
+                <a href="#">Drama</a>
+                <a href="#">Horror</a>
+                <a href="#">Romance</a>
+                <a href="#">Thriller</a>
+                <a href="#">War</a>
+            </div>
+        </nav>
+        <nav class="desktopNav">
             <a href="#">Action</a>
             <a href="#">Comedy</a>
             <a href="#">Crime</a>
@@ -31,6 +48,40 @@
     </header>
 
     <main class="container">
+        <section class="carouselContainer">
+
+            <ul class="carousel">
+                <li class="items main-pos" id="1">
+                    <p>1</p>
+                </li>
+                <li class="items right-pos" id="2">
+                    <img src="http://farm9.staticflickr.com/8337/8234123289_2b23aeaf06.jpg"
+                        alt="Image of a scenic landscape." />
+                </li>
+                <li class="items back-pos" id="3">
+                    <img src="http://farm9.staticflickr.com/8337/8234711202_831b23a2b7.jpg"
+                        alt="A serene nature view with trees." />
+                </li>
+                <li class="items back-pos" id="4">
+                    <img src="http://farm9.staticflickr.com/8337/8234711202_831b23a2b7.jpg"
+                        alt="A serene nature view with trees." />
+                </li>
+                <li class="items back-pos" id="5">
+                    <img src="http://farm9.staticflickr.com/8337/8234123289_2b23aeaf06.jpg"
+                        alt="Image of a scenic landscape." />
+                </li>
+                <li class="items back-pos" id="6">
+                    <img src="https://thispersondoesnotexist.com/" alt="A close-up of a dog playing outdoors." />
+                </li>
+                <li class="items left-pos" id="7">
+                    <img src="https://thispersondoesnotexist.com/" alt="A vibrant photo of city lights at night." />
+                </li>
+            </ul>
+            <div class="buttonContainer">
+                <input type="button" value="Prev" id="prev">
+                <input type="button" value="Next" id="next">
+            </div>
+        </section>
         <section>
             <div class="currentlyPlayingContainer">
                 <h1>Currently Playing</h1>
