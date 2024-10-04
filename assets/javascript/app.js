@@ -21,11 +21,11 @@ const warGenreContainerEl = document.querySelector(".warContainer")
 
 // FETCH MOVIES CURRENTLY PLAYING 
 fetchMovies("movie/now_playing").then(data => {
-    renderMovieCard(data.results, currentlyPlayingContainerEl, 3)
+    renderMovieCarouselContent(data.results, currentlyPlayingContainerEl, 5)
 })
 // FETCH POPULAR MOVIES 
 fetchMovies("movie/popular").then(data => {
-    renderMovieCard(data.results, popularMoviesContainerEl, 3)
+    renderMovieCarouselContent(data.results, popularMoviesContainerEl, 3)
 })
 
 // FETCH MOVIES FROM DIFFERENT GENRES
@@ -91,6 +91,7 @@ function renderMovieCard(movie, placement, amount = movie.length) {
     for (let index = 0; index < amount; index++) {
 
         placement.innerHTML += `
+          
             <img src="https://image.tmdb.org/t/p/w200/${movie[index].poster_path}" alt="">
             <h2>${movie[index].title}</h2>
             <h3>${movie[index].genre_ids}</h3>
@@ -100,30 +101,41 @@ function renderMovieCard(movie, placement, amount = movie.length) {
 
     }
 }
+function renderMovieCarouselContent(movie, placement, amount = movie.lenght) {
+    for (let index = 0; index < amount; index++) {
 
+        placement.innerHTML += `
+   
+    <a href="#" class="items main-pos" id="${index + 1}" style="background-image: url(
+        https://image.tmdb.org/t/p/w200/${movie[index].poster_path});">
+        <div class="movieInfo">
+            <h3 class="movieTitle">${movie[index].title}</h3>
+            <p class="movieDescription">${movie[index].overview}</p>
+        </div>
+    </a>
+    `}
+}
 
 
 
 // NAV MOBILE
 
-const navMobileButtonEl = document.querySelector(".mobileNavBtn")
-const navMobileMenuEl = document.querySelector(".menu")
-navMobileButtonEl.addEventListener("click", () => {
-    navMobileMenuEl.classList.toggle("mobileMenuAnimation")
+document.querySelector(".mobileNavBtn").addEventListener("click", () => {
+    document.querySelector(".menu").classList.toggle("mobileMenuAnimation")
 })
 
 // CAROUSEL
 
 // slideshow style interval
-// let autoSwap = setInterval(() => swap(), 5000);
+// let autoSwap = setInterval(() => swap(), 5500);
 
 // pause slideshow and reinstantiate on mouseout
-document.querySelectorAll('ul, span').forEach(element => {
+document.querySelectorAll('.carousel, .buttonContainer').forEach(element => {
     element.addEventListener('mouseenter', () => {
         clearInterval(autoSwap);
     });
     element.addEventListener('mouseleave', () => {
-        // autoSwap = setInterval(() => swap(), 5000);
+        // autoSwap = setInterval(() => swap(), 5500);
     });
 });
 
@@ -131,11 +143,11 @@ document.querySelectorAll('ul, span').forEach(element => {
 const items = [];
 let startItem = 1;
 let position = 0;
-const itemCount = document.querySelectorAll('.carousel li.items').length;
+const itemCount = document.querySelectorAll('.carousel a.items').length;
 const resetCount = itemCount;
 
 // gather text inside items class
-document.querySelectorAll('li.items').forEach((element, index) => {
+document.querySelectorAll('a.items').forEach((element, index) => {
     items[index] = element.textContent;
 });
 
@@ -205,7 +217,7 @@ document.getElementById('prev').addEventListener('click', () => {
 });
 
 // if any visible items are clicked
-document.querySelectorAll('li.items').forEach(item => {
+document.querySelectorAll('a.items').forEach(item => {
     item.addEventListener('click', () => {
         if (item.classList.contains('left-pos')) {
             swap('counter-clockwise');

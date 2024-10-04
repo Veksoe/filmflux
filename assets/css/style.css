@@ -28,7 +28,7 @@
 
 
     /* DETAILS */
-    --borderRadius: 3px;
+    --borderRadius: 6px;
     --round: 50%;
     --shadow: 3px 3px 8px gray;
 }
@@ -74,6 +74,14 @@ section {
     grid-column: 2/-2;
 }
 
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--borderRadius);
+}
+
 
 /* --- TEXT --- */
 h1,
@@ -81,9 +89,9 @@ h2,
 h3,
 h4,
 h5,
-h6,
-p {
+h6 {
     grid-column: 2 / -2;
+    font-family: "Acme", system-ui;
 }
 
 h1 {
@@ -105,12 +113,14 @@ h2 {
 h3 {
     font-size: 1rem;
     margin: 0px;
-    color: var(--secondaryColor);
+    color: var(--baseTextLightColor);
+    letter-spacing: 1px;
 }
 
 p {
-    margin: 0 0 var(--smallSpacing) 0;
+    margin: 0 0 10px 0;
     color: var(--baseTextDarkColor);
+    grid-column: 2 / -2;
 }
 
 /* --- BUTTONS --- */
@@ -207,72 +217,89 @@ a .btn:hover {
     padding: 0;
     margin: 0;
     position: relative;
-}
 
-li {
-    width: 100%;
-    /* Fast bredde for container */
-    height: 100%;
-    background: #333;
-    display: inline-block;
-    transition: all .8s ease-in-out;
-    margin: 0;
-}
+    a {
+        width: 100%;
+        /* Fast bredde for container */
+        height: 100%;
+        background: #333;
+        display: inline-block;
+        transition: all .8s ease-in-out;
+        margin: 0;
+        background-position: center;
+        background-size: cover;
+        text-decoration: none;
+        border-radius: var(--borderRadius);
 
-li p {
-    color: white;
-    font-weight: bold;
-    font-size: 5rem;
-    text-align: center;
-}
 
-.items {
-    position: absolute;
-}
+        .movieInfo {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+            height: 100%;
+            padding: 16px;
+            border-radius: var(--borderRadius);
 
-img {
-    width: 100%;
-    /* Billedet fylder hele bredden af containeren */
-    height: 100%;
-    /* Billedet fylder hele højden af containeren */
-    object-fit: cover;
-    /* Billedet beskæres og tilpasses uden forvrængning */
-    object-position: center;
-    /* Billedet centreres inde i containeren */
-}
+            /* padding-right: 40%; */
 
-.main-pos {
-    z-index: 30;
-    box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.5);
-}
+            .movieTitle {
+                font-size: 1.4rem;
+            }
 
-.left-pos {
-    opacity: .3;
-    margin-left: -25%;
-    z-index: 10;
-    transform: scale(.75);
-}
+            .movieDescription {
+                color: white;
+                display: none;
+            }
+        }
 
-.back-pos {
-    margin-left: 2em;
-    opacity: .05;
-    transform: scale(.5);
-}
+    }
 
-.right-pos {
-    opacity: .3;
-    margin-left: 25%;
-    z-index: 10;
-    transform: scale(.75);
+
+    .items {
+        position: absolute;
+    }
+
+    .main-pos {
+        z-index: 30;
+        box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .left-pos {
+        opacity: .3;
+        margin-left: -25%;
+        z-index: 10;
+        transform: scale(.75);
+    }
+
+    .back-pos {
+        margin-left: 2em;
+        opacity: .05;
+        transform: scale(.5);
+    }
+
+    .right-pos {
+        opacity: .3;
+        margin-left: 25%;
+        z-index: 10;
+        transform: scale(.75);
+    }
+
 }
 
 .buttonContainer {
     position: relative;
-    margin: 10px auto;
+    margin: 5px auto;
     display: block;
     text-align: center;
 
+    button {
+        background: none;
+        border: none;
+        font-size: 1.3rem;
+        padding: 6px 12px;
+    }
+
 }
+
+
 
 @media screen and (max-width: 1200px) {
     .carouselContainer {
