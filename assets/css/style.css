@@ -8,7 +8,7 @@
     /* COLORS */
     --primaryColor: #990000;
     --secondaryColor: #D2691E;
-    --accentColor1: #D4AF37;
+    --accentColor1: #eec6446c;
     --accentColor2: #4C9085;
     --interactableColor: darkSlateGrey;
     --hoverButtonColor: dimGray;
@@ -96,18 +96,16 @@ h6 {
 
 h1 {
     font-size: 1.8rem;
-    text-transform: uppercase;
-    margin: 15px 0;
     text-align: center;
     color: var(--primaryColor);
 }
 
 h2 {
-    font-size: 1.5rem;
-    color: var(--accentColor);
-    font-style: italic;
-    margin: 0px;
+    font-size: 1.8rem;
     color: var(--primaryColor);
+    text-align: center;
+    margin: 15px;
+
 }
 
 h3 {
@@ -141,14 +139,19 @@ a .btn:hover {
 }
 
 /**** HEADER ****/
-.logo {
+.logo,
+.logo h1 {
     font-family: "Spicy Rice", system-ui;
     font-size: 50px;
     text-align: center;
     text-decoration: none;
     color: var(--baseTextLightColor);
     display: block;
-    filter: drop-shadow(2px 2px 2px var(--secondaryColor))
+    filter: drop-shadow(2px 2px 2px var(--secondaryColor));
+    font-weight: 400;
+    text-transform: unset;
+    margin: 0;
+
 }
 
 .desktopNav {
@@ -305,6 +308,84 @@ a .btn:hover {
 
 }
 
+/* MOVIE CARD */
+.genreContainer {
+    margin: 10px 0;
+    background: var(--accentColor1);
+    padding: 15px;
+
+    .actionContainer,
+    .comedyContainer,
+    .crimeContainer,
+    .documentaryContainer,
+    .dramaContainer,
+    .horrorContainer,
+    .romanceContainer,
+    .thrillerContainer,
+    .warContainer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gapSpacingMobile);
+
+    }
+
+    .genreHeader {
+        margin: 10px 0;
+
+        h2 {
+            margin: 0;
+        }
+
+        p {
+            text-align: center;
+            margin: 0;
+            font-size: .9rem;
+            font-style: italic;
+        }
+
+        a {
+            color: var(--secondaryColor);
+            /* padding: 8px 16px; */
+            display: block;
+            text-align: center;
+        }
+    }
+
+    .seeMore {
+        display: none;
+    }
+
+
+    .movieCard {
+        display: block;
+        height: 250px;
+        width: 100%;
+        text-decoration: none;
+        border-radius: var(--borderRadius);
+        box-shadow: var(--shadow);
+        background-position: center;
+        background-size: cover;
+
+        .titleContainer {
+            background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+            height: 100%;
+            padding: 15px;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            border-radius: var(--borderRadius);
+
+        }
+
+        h3 {
+            color: var(--baseTextLightColor);
+            font-size: 1.5rem;
+        }
+    }
+}
+
+
+
 
 @media screen and (max-width: 1200px) {
     .carouselContainer {
@@ -322,5 +403,12 @@ a .btn:hover {
             margin-left: 20%;
         }
     }
+
+    /* 
+    .seeMore {
+        grid-column: 1/-1;
+        width: 50%;
+        margin: 10px auto;
+    } */
 
 }

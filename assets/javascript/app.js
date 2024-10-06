@@ -10,6 +10,7 @@ if (apiAccessToken == null) {
 const currentlyPlayingContainerEl = document.querySelector(".currentlyPlayingContainer")
 const popularMoviesContainerEl = document.querySelector(".popularMoviesContainer")
 const actionGenreContainerEl = document.querySelector(".actionContainer")
+const actionMovieTotaltCountEl = document.querySelector("#movieId-28 .genreHeader p");
 const comedyGenreContainerEl = document.querySelector(".comedyContainer")
 const crimeGenreContainerEl = document.querySelector(".crimeContainer")
 const documentaryGenreContainerEl = document.querySelector(".documentaryContainer")
@@ -31,33 +32,49 @@ fetchMovies("movie/popular").then(data => {
 // FETCH MOVIES FROM DIFFERENT GENRES
 fetchMovies("discover/movie?with_genres=28&page=2").then(data => {
     console.log(data.total_results)
-    console.log(data.results)
-    renderMovieCard(data.results, actionGenreContainerEl, 3)
+    console.log(data)
+    actionMovieTotaltCountEl.textContent += `(${data.total_results}  movies)`;
+    renderMovieCard(data.results, actionGenreContainerEl, 4)
 })
 fetchMovies("discover/movie?with_genres=35&page=2").then(data => {
+    renderMovieCard(data.results, comedyGenreContainerEl, 4)
+    document.querySelector("#movieId-35 .genreHeader p").textContent += `(${data.total_results}  movies)`;
 
-    renderMovieCard(data.results, comedyGenreContainerEl, 3)
 })
 fetchMovies("discover/movie?with_genres=80&page=2").then(data => {
-    renderMovieCard(data.results, crimeGenreContainerEl, 3)
+    renderMovieCard(data.results, crimeGenreContainerEl, 4)
+    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+
 })
 fetchMovies("discover/movie?with_genres=99&page=2").then(data => {
-    renderMovieCard(data.results, documentaryGenreContainerEl, 3)
+    renderMovieCard(data.results, documentaryGenreContainerEl, 4)
+    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+
 })
 fetchMovies("discover/movie?with_genres=18&page=2").then(data => {
-    renderMovieCard(data.results, dramaGenreContainerEl, 3)
+    renderMovieCard(data.results, dramaGenreContainerEl, 4)
+    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+
 })
 fetchMovies("discover/movie?with_genres=27&page=2").then(data => {
-    renderMovieCard(data.results, horrorGenreContainerEl, 3)
+    renderMovieCard(data.results, horrorGenreContainerEl, 4)
+    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+
 })
 fetchMovies("discover/movie?with_genres=10749&page=2").then(data => {
-    renderMovieCard(data.results, romanceGenreContainerEl, 3)
+    renderMovieCard(data.results, romanceGenreContainerEl, 4)
+    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+
 })
 fetchMovies("discover/movie?with_genres=53&page=2").then(data => {
-    renderMovieCard(data.results, thrillerGenreContainerEl, 3)
+    renderMovieCard(data.results, thrillerGenreContainerEl, 4)
+    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+
 })
 fetchMovies("discover/movie?with_genres=10752&page=2").then(data => {
-    renderMovieCard(data.results, warGenreContainerEl, 3)
+    renderMovieCard(data.results, warGenreContainerEl, 4)
+    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+
 })
 
 
@@ -82,6 +99,7 @@ function fetchMovies(query) {
         .then(response => response.json())
         .then(data => {
             // console.log(data.results)
+
             return data;
         })
         .catch(err => console.error(err));
@@ -92,12 +110,12 @@ function renderMovieCard(movie, placement, amount = movie.length) {
     for (let index = 0; index < amount; index++) {
 
         placement.innerHTML += `
-          
-            <img src="https://image.tmdb.org/t/p/w400/${movie[index].poster_path}" alt="">
-            <h2>${movie[index].title}</h2>
-            <h3>${movie[index].genre_ids}</h3>
-            <h3>Beskrivelse</h3>
-            <p>${movie[index].overview}</p>
+          <a href="#" class="movieCard"
+          style="background-image:url(https://image.tmdb.org/t/p/w200/${movie[index].poster_path});">
+          <div class="titleContainer">
+            <h3>${movie[index].title}</h3>
+          </div>
+        </a>
     `
 
     }
