@@ -97,7 +97,7 @@ h6 {
 h1 {
     font-size: 1.8rem;
     text-transform: uppercase;
-    margin: var(--mediumSpacing) 0;
+    margin: 15px 0;
     text-align: center;
     color: var(--primaryColor);
 }
@@ -180,7 +180,10 @@ a .btn:hover {
         top: 10px;
         padding: 10px;
         transform: translateX(300px);
-        transition: .3s;
+        display: none;
+        transition-duration: .3s;
+        transition-property: display transform;
+        transition-behavior: allow-discrete;
 
         a {
             color: var(--baseTextLightColor);
@@ -193,7 +196,11 @@ a .btn:hover {
 
     .mobileMenuAnimation {
         transform: translateX(0px);
+        display: flex;
 
+        @starting-style {
+            transform: translateX(300px)
+        }
     }
 }
 
@@ -208,7 +215,6 @@ a .btn:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px
 }
 
 .carousel {
@@ -300,10 +306,9 @@ a .btn:hover {
 }
 
 
-
 @media screen and (max-width: 1200px) {
     .carouselContainer {
-        height: 40vh;
+        height: 50vh;
 
         .carousel {
             width: 90%;
