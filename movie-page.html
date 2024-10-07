@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"> <!--UPDATE-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="-"> <!--UPDATE-->
+    <meta name="keywords" content="-"> <!--UPDATE-->
+
+    <title>FilmFlux</title> <!--UPDATE-->
+
+    <link rel="icon" type="image/x-icon" href="./assets/img/"> <!-- UPDATE-->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script src="./assets/javascript/app.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <header>
+        <a href="./index.html" class="logo">
+            <h1>FilmFlux</h1>
+        </a>
+        <nav class="mobileNav">
+            <button class="mobileNavBtn"><i class="fa-solid fa-bars"></i></button>
+            <div class="menu ">
+                <a href="#">Action</a>
+                <a href="#">Comedy</a>
+                <a href="#">Crime</a>
+                <a href="#">Documentary</a>
+                <a href="#">Drama</a>
+                <a href="#">Horror</a>
+                <a href="#">Romance</a>
+                <a href="#">Thriller</a>
+                <a href="#">War</a>
+            </div>
+        </nav>
+        <nav class="desktopNav">
+            <a href="#">Action</a>
+            <a href="#">Comedy</a>
+            <a href="#">Crime</a>
+            <a href="#">Documentary</a>
+            <a href="#">Drama</a>
+            <a href="#">Horror</a>
+            <a href="#">Romance</a>
+            <a href="#">Thriller</a>
+            <a href="#">War</a>
+        </nav>
+    </header>
+
+    <main id="moviePage">
+        <img src="https://image.tmdb.org/t/p/w1920/${movie.backdrop_path}" alt="An image from the movie ${movie.title}"
+            class="fullWidth backdrop">
+        <section>
+            <h1 class="movieTitle">${movie.title}</h1>
+            <div class="movieInfo">
+                <img src="https://image.tmdb.org/t/p/w1920/${movie.poster_path}"
+                    alt="The movie poster from the movie ${movie.title}" class="moviePoster">
+                <p>${movie.overview}</p>
+                <div class="movieMetadata">
+                    <div>
+                        <h3>Release date</h3>
+                        <p>${movie.release_date}</p>
+                    </div>
+                    <div>
+                        <h3>Runtime</h3>
+                        <p>${movie.runtime} minutes</p>
+                    </div>
+                    <div>
+                        <h3>Genres</h3>
+                        <p>${movie.genres}</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <section>
+            <h2>Directors</h2>
+            <div class="directorContainer">
+                <div class="directorCard">
+                    <img src="./assets/img/unkownIMG.jpg" alt="An image of the director, ${directors.name}">
+                    <h3>${directors.name}</h3>
+                    <p>${directors.department}</p>
+                </div>
+                <div class="directorCard">
+                    <div class="directorCard">
+                        <img src="./assets/img/unkownIMG.jpg" alt="An image of the director, ${directors.name}">
+                        <h3>${directors.name}</h3>
+                        <p>${directors.department}</p>
+                    </div>
+                </div>
+                <div class="directorCard">
+                    <img src="./assets/img/unkownIMG.jpg" alt="An image of the director, ${directors.name}">
+                    <h3>${directors.name}</h3>
+                    <p>${directors.department}</p>
+                </div>
+                <div class="directorCard">
+                    <img src="./assets/img/unkownIMG.jpg" alt="An image of the director, ${directors.name}">
+                    <h3>${directors.name}</h3>
+                    <p>${directors.department}</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+
+    </footer>
+
+</body>
+
+</html>

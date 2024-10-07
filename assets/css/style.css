@@ -111,7 +111,7 @@ h2 {
 h3 {
     font-size: 1rem;
     margin: 0px;
-    color: var(--baseTextLightColor);
+    color: var(--baseTextDarkColor);
     letter-spacing: 1px;
 }
 
@@ -214,7 +214,7 @@ a .btn:hover {
 /* CAROUSEL */
 .carouselContainer {
     width: 100%;
-    height: 70vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -222,7 +222,8 @@ a .btn:hover {
 
 .carousel {
     height: 100%;
-    width: 65%;
+    width: 90%;
+
     padding: 0;
     margin: 0;
     position: relative;
@@ -247,10 +248,12 @@ a .btn:hover {
             padding: 16px;
             border-radius: var(--borderRadius);
 
+
             /* padding-right: 40%; */
 
             .movieTitle {
                 font-size: 1.4rem;
+                color: var(--baseTextLightColor);
             }
 
             .movieDescription {
@@ -273,7 +276,8 @@ a .btn:hover {
 
     .left-pos {
         opacity: .3;
-        margin-left: -25%;
+        margin-left: -20%;
+
         z-index: 10;
         transform: scale(.75);
     }
@@ -286,7 +290,7 @@ a .btn:hover {
 
     .right-pos {
         opacity: .3;
-        margin-left: 25%;
+        margin-left: 20%;
         z-index: 10;
         transform: scale(.75);
     }
@@ -384,23 +388,85 @@ a .btn:hover {
     }
 }
 
+/* SINGULAR MOVIE PAGE */
 
-
-
-@media screen and (max-width: 1200px) {
-    .carouselContainer {
+#moviePage {
+    .backdrop {
         height: 50vh;
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+        border-radius: unset;
+    }
+
+    .movieTitle {
+        position: absolute;
+        bottom: 40vh;
+        text-align: center;
+        width: 92%;
+        color: var(--baseTextDarkColor);
+        font-size: 2.1rem;
+    }
+
+    .movieInfo {
+        display: grid;
+        grid-template-columns: 1fr 1.7fr;
+        gap: var(--gapSpacingMobile);
+
+
+
+        .movieMetadata {
+            border-top: 2px solid var(--secondaryColor);
+            padding-top: var(--gapSpacingMobile);
+            grid-column: span 2;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            column-gap: var(--gapSpacingMobile);
+
+            div {
+                min-width: 40%;
+            }
+        }
+    }
+
+    .directorContainer,
+    .actorContainer {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: var(--gapSpacingMobile);
+
+        .directorCard,
+        .actorCard {
+            width: 125px;
+            flex: 0 0 auto;
+
+            img {
+
+                height: 125px;
+            }
+        }
+    }
+}
+
+
+
+@media screen and (min-width: 1200px) {
+    .carouselContainer {
+        height: 70vh;
 
         .carousel {
-            width: 90%;
+            width: 65%;
+
         }
 
         .left-pos {
-            margin-left: -20%;
+            margin-left: -25%;
+
         }
 
         .right-pos {
-            margin-left: 20%;
+            margin-left: 25%;
+
         }
     }
 
