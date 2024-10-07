@@ -10,7 +10,6 @@ if (apiAccessToken == null) {
 const currentlyPlayingContainerEl = document.querySelector(".currentlyPlayingContainer")
 const popularMoviesContainerEl = document.querySelector(".popularMoviesContainer")
 const actionGenreContainerEl = document.querySelector(".actionContainer")
-const actionMovieTotaltCountEl = document.querySelector("#movieId-28 .genreHeader p");
 const comedyGenreContainerEl = document.querySelector(".comedyContainer")
 const crimeGenreContainerEl = document.querySelector(".crimeContainer")
 const documentaryGenreContainerEl = document.querySelector(".documentaryContainer")
@@ -19,6 +18,13 @@ const horrorGenreContainerEl = document.querySelector(".horrorContainer")
 const romanceGenreContainerEl = document.querySelector(".romanceContainer")
 const thrillerGenreContainerEl = document.querySelector(".thrillerContainer")
 const warGenreContainerEl = document.querySelector(".warContainer")
+
+
+/* Variable der kigger query-parametere i url/search-baren i det aktuelle vindue/tab */
+const urlParams = new URLSearchParams(window.location.search);
+/* Variable der sætter et id, ud fra hvad der står efter "id" i url/search baren */
+const id = urlParams.get("id");
+
 
 // FETCH MOVIES CURRENTLY PLAYING 
 fetchMovies("movie/now_playing").then(data => {
@@ -33,50 +39,51 @@ fetchMovies("movie/popular").then(data => {
 fetchMovies("discover/movie?with_genres=28&page=2").then(data => {
     console.log(data.total_results)
     console.log(data)
-    actionMovieTotaltCountEl.textContent += `(${data.total_results}  movies)`;
+    document.querySelector("#movieId-28 .genreHeader p").textContent = `(${data.total_results}  movies)`;
     renderMovieCard(data.results, actionGenreContainerEl, 4)
 })
 fetchMovies("discover/movie?with_genres=35&page=2").then(data => {
     renderMovieCard(data.results, comedyGenreContainerEl, 4)
-    document.querySelector("#movieId-35 .genreHeader p").textContent += `(${data.total_results}  movies)`;
+    document.querySelector("#movieId-35 .genreHeader p").textContent = `(${data.total_results}  movies)`;
 
 })
-fetchMovies("discover/movie?with_genres=80&page=2").then(data => {
-    renderMovieCard(data.results, crimeGenreContainerEl, 4)
-    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+if (actionGenreContainerEl)
+    fetchMovies("discover/movie?with_genres=80&page=2").then(data => {
+        renderMovieCard(data.results, crimeGenreContainerEl, 4)
+        //document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
 
-})
+    })
 fetchMovies("discover/movie?with_genres=99&page=2").then(data => {
     renderMovieCard(data.results, documentaryGenreContainerEl, 4)
-    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+    //document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
 
 })
 fetchMovies("discover/movie?with_genres=18&page=2").then(data => {
     renderMovieCard(data.results, dramaGenreContainerEl, 4)
-    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+    //document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
 
 })
 fetchMovies("discover/movie?with_genres=27&page=2").then(data => {
     renderMovieCard(data.results, horrorGenreContainerEl, 4)
-    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+    //document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
 
 })
 fetchMovies("discover/movie?with_genres=10749&page=2").then(data => {
     renderMovieCard(data.results, romanceGenreContainerEl, 4)
-    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+    //document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
 
 })
 fetchMovies("discover/movie?with_genres=53&page=2").then(data => {
     renderMovieCard(data.results, thrillerGenreContainerEl, 4)
-    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+    //document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
 
 })
 fetchMovies("discover/movie?with_genres=10752&page=2").then(data => {
     renderMovieCard(data.results, warGenreContainerEl, 4)
-    document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
+    //document.querySelector(".genreHeader p").textContent = `(${data.total_results}  movies)`;
 
 })
-
+// fetchMovieDetails("movie/" + id);
 
 // FETCH
 
@@ -105,6 +112,26 @@ function fetchMovies(query) {
         .catch(err => console.error(err));
 }
 
+// Fetch details of one movie
+function fetchMovieDetails(query, movieId) {
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer ' + apiAccessToken
+        }
+    };
+
+    return fetch('https://api.themoviedb.org/3/' + query + movieId, options)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+
+            return data;
+        })
+        .catch(err => console.error(err));
+}
+
 // RENDER CONTENT
 function renderMovieCard(movie, placement, amount = movie.length) {
     for (let index = 0; index < amount; index++) {
@@ -124,7 +151,7 @@ function renderMovieCarouselContent(movie, placement, carouselId) {
 
     placement.innerHTML += `
    
-    <a href="#" class="items main-pos" id="${carouselId}-1" style="background-image: url(
+    <a href="./movie-page.html?id=${movie[0].id}" class="items main-pos" id="${carouselId}-1" style="background-image: url(
         https://image.tmdb.org/t/p/w400/${movie[0].poster_path});">
         <div class="movieInfo">
             <h3 class="movieTitle">${movie[0].title}</h3>
@@ -172,10 +199,6 @@ document.querySelector(".mobileNavBtn").addEventListener("click", () => {
 })
 
 
-
-/** TO DO: FIX SO THE CAROUSEL DON'T SWAP TWICE THE AMOUNT IF MOVIES SHOWN 
- * AND FIX PREV-BUTTON
-*/
 // CAROUSEL
 function initCarousel(carouselId) {
     // slideshow style interval
@@ -193,10 +216,8 @@ function initCarousel(carouselId) {
 
     // global variables
     const items = [];
-    let startItem = 1;
-    let position = 0;
+    let startItem = 1
     const itemCount = document.querySelectorAll(`#${carouselId} a.items`).length;
-    const resetCount = itemCount;
 
     // gather text inside items class
     document.querySelectorAll('a.items').forEach((element, index) => {
@@ -227,16 +248,15 @@ function initCarousel(carouselId) {
 
         // moving carousel forward
         if (direction === 'clockwise') {
+            let rightitem = parseInt(document.querySelector(`#${carouselId} .right-pos`).id.split('-')[1]) + 1;
+            if (rightitem > itemCount) {
+                rightitem = 1;
+            }
 
-            let nextRightItem = (startItem + 1 > itemCount) ? 1 : startItem + 1;
-            let nextLeftItem = (startItem - 1 < 1) ? itemCount : startItem - 1;
-            let nextBackItem = (nextLeftItem - 1 < 1) ? itemCount : nextLeftItem - 1;
-
-
-            document.getElementById(`${carouselId}-${startItem}`).classList.replace('main-pos', 'left-pos');
-            document.getElementById(`${carouselId}-${nextRightItem}`).classList.replace('right-pos', 'main-pos');
-            document.getElementById(`${carouselId}-${nextLeftItem}`).classList.replace('back-pos', 'right-pos');
-            document.getElementById(`${carouselId}-${nextBackItem}`).classList.replace('left-pos', 'back-pos');
+            document.querySelector(`#${carouselId} .left-pos`).classList.replace('left-pos', 'back-pos');
+            document.querySelector(`#${carouselId} .main-pos`).classList.replace('main-pos', 'left-pos');
+            document.querySelector(`#${carouselId} .right-pos`).classList.replace('right-pos', 'main-pos');
+            document.getElementById(`${carouselId}-${rightitem}`).classList.replace('back-pos', 'right-pos');
 
             startItem++;
             if (startItem > itemCount) {
@@ -254,5 +274,4 @@ function initCarousel(carouselId) {
     document.querySelector(`#${carouselId} .buttonContainer .prev`).addEventListener('click', () => {
         swap('counter-clockwise');
     });
-
 }   
