@@ -50,58 +50,7 @@
     </header>
 
     <main id="moviePage">
-        <img src="https://image.tmdb.org/t/p/w1920/${movie.backdrop_path}" alt="An image from the movie ${movie.title}"
-            class="fullWidth backdrop">
-        <section>
-            <h1 class="movieTitle">${movie.title}</h1>
-            <div class="movieInfo">
-                <img src="https://image.tmdb.org/t/p/w1920/${movie.poster_path}"
-                    alt="The movie poster from the movie ${movie.title}" class="moviePoster">
-                <p>${movie.overview}</p>
-                <div class="movieMetadata">
-                    <div>
-                        <h3>Release date</h3>
-                        <p>${movie.release_date}</p>
-                    </div>
-                    <div>
-                        <h3>Runtime</h3>
-                        <p>${movie.runtime} minutes</p>
-                    </div>
-                    <div>
-                        <h3>Genres</h3>
-                        <p>${movie.genres}</p>
-                    </div>
-                </div>
 
-            </div>
-        </section>
-        <section>
-            <h2>Directors</h2>
-            <div class="directorContainer">
-                <div class="directorCard">
-                    <img src="./assets/img/unkownIMG.jpg" alt="An image of the director, ${directors.name}">
-                    <h3>${directors.name}</h3>
-                    <p>${directors.department}</p>
-                </div>
-                <div class="directorCard">
-                    <div class="directorCard">
-                        <img src="./assets/img/unkownIMG.jpg" alt="An image of the director, ${directors.name}">
-                        <h3>${directors.name}</h3>
-                        <p>${directors.department}</p>
-                    </div>
-                </div>
-                <div class="directorCard">
-                    <img src="./assets/img/unkownIMG.jpg" alt="An image of the director, ${directors.name}">
-                    <h3>${directors.name}</h3>
-                    <p>${directors.department}</p>
-                </div>
-                <div class="directorCard">
-                    <img src="./assets/img/unkownIMG.jpg" alt="An image of the director, ${directors.name}">
-                    <h3>${directors.name}</h3>
-                    <p>${directors.department}</p>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer>
