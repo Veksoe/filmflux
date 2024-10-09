@@ -1,12 +1,12 @@
 // API ACCESS TOKEN //
 let apiAccessToken = sessionStorage.getItem("API Access Token")
-if (apiAccessToken == null) {
+while (apiAccessToken == null || apiAccessToken == "") {
     apiAccessToken = prompt("Please paste an API Access Token to access the webpage")
     sessionStorage.setItem("API Access Token", apiAccessToken)
 }
 // --------------  //
 
-
+// QUERY SELECTORS
 const currentlyPlayingContainerEl = document.querySelector(".currentlyPlayingContainer")
 const popularMoviesContainerEl = document.querySelector(".popularMoviesContainer")
 const indexGenreContainerEl = document.querySelector(".index .genreContainer")
@@ -20,15 +20,11 @@ const romanceGenreContainerEl = document.querySelector(".romanceContainer")
 const thrillerGenreContainerEl = document.querySelector(".thrillerContainer")
 const warGenreContainerEl = document.querySelector(".warContainer")
 const moviePageEl = document.querySelector("#moviePage")
+const watchlistEl = document.querySelector(".watchlist")
 
-let watchlist = [];
-
-
-/* Variable der kigger query-parametere i url/search-baren i det aktuelle vindue/tab */
+// URL SELECTOR
 const urlParams = new URLSearchParams(window.location.search);
-/* Variable der sætter et id, ud fra hvad der står efter "id" i url/search baren */
 const id = urlParams.get("id");
-
 
 // FETCH MOVIES CURRENTLY PLAYING 
 if (currentlyPlayingContainerEl) {
@@ -90,11 +86,6 @@ if (window.location.href.includes("movie-page")) {
 
 // FETCH
 
-// fetch('https://api.themoviedb.org/3/discover/movie', options)
-//     .then(response => response.json())
-//     .then(response => console.log(response))
-//     .catch(err => console.error(err));
-
 // Fetch movies with queries
 function fetchMovies(query) {
     const options = {
@@ -108,8 +99,6 @@ function fetchMovies(query) {
     return fetch('https://api.themoviedb.org/3/' + query, options)
         .then(response => response.json())
         .then(data => {
-            // console.log(data.results)
-
             return data;
         })
         .catch(err => console.error(err));
@@ -125,12 +114,12 @@ function fetchMovieDetails(movieId) {
         }
     };
 
-    // Definer de to fetch-anmodninger
+    // The different fetch requests
     const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movieId}`;
     const movieCreditsUrl = `https://api.themoviedb.org/3/movie/${movieId}/credits`;
     const movieVideoUrl = `https://api.themoviedb.org/3/movie/${movieId}/videos`;
 
-    // Brug Promise.all til at fetch'e begge anmodninger samtidigt
+    // Fetch all requests at the same time
     return Promise.all([
         fetch(movieDetailsUrl, options).then(response => response.json()),
         fetch(movieCreditsUrl, options).then(response => response.json()),
@@ -148,7 +137,6 @@ function fetchMovieDetails(movieId) {
 
 // RENDER MOVIE CARD
 function renderMovieCard(movie, placement, amount = movie.length) {
-
     for (let index = 0; index < amount; index++) {
         placement.innerHTML += `
           <a href="./movie-page.html?id=${movie[index].id}" class="movieCard"
@@ -159,9 +147,6 @@ function renderMovieCard(movie, placement, amount = movie.length) {
         </a>
     `
     }
-
-
-
 }
 
 // NAV MOBILE
@@ -171,39 +156,38 @@ document.querySelector(".mobileNavBtn").addEventListener("click", () => {
 })
 
 function renderMovieCarouselContent(movie, placement, carouselId) {
-
     placement.innerHTML += `
    
     <a href="./movie-page.html?id=${movie[0].id}" class="items main-pos" id="${carouselId}-1" style="background-image: url(
-        https://image.tmdb.org/t/p/w400/${movie[0].poster_path});">
+        https://image.tmdb.org/t/p/w780/${movie[0].poster_path});">
         <div class="movieInfo">
             <h3 class="movieTitle">${movie[0].title}</h3>
             <p class="movieDescription">${movie[0].overview}</p>
         </div>
     </a>
     <a href="./movie-page.html?id=${movie[1].id}" class="items right-pos" id="${carouselId}-2" style="background-image: url(
-        https://image.tmdb.org/t/p/w400/${movie[1].poster_path});">
+        https://image.tmdb.org/t/p/w780/${movie[1].poster_path});">
         <div class="movieInfo">
             <h3 class="movieTitle">${movie[1].title}</h3>
             <p class="movieDescription">${movie[1].overview}</p>
         </div>
     </a>
      <a href="./movie-page.html?id=${movie[2].id}" class="items back-pos" id="${carouselId}-3" style="background-image: url(
-        https://image.tmdb.org/t/p/w400/${movie[2].poster_path});">
+        https://image.tmdb.org/t/p/w780/${movie[2].poster_path});">
         <div class="movieInfo">
             <h3 class="movieTitle">${movie[2].title}</h3>
             <p class="movieDescription">${movie[2].overview}</p>
         </div>
     </a>
     <a href="./movie-page.html?id=${movie[3].id}" class="items back-pos" id="${carouselId}-4" style="background-image: url(
-        https://image.tmdb.org/t/p/w400/${movie[3].poster_path});">
+        https://image.tmdb.org/t/p/w780/${movie[3].poster_path});">
         <div class="movieInfo">
             <h3 class="movieTitle">${movie[3].title}</h3>
             <p class="movieDescription">${movie[3].overview}</p>
         </div>
     </a>
      <a href="./movie-page.html?id=${movie[4].id}" class="items left-pos" id="${carouselId}-5" style="background-image: url(
-        https://image.tmdb.org/t/p/w400/${movie[4].poster_path});">
+        https://image.tmdb.org/t/p/w780/${movie[4].poster_path});">
         <div class="movieInfo">
             <h3 class="movieTitle">${movie[4].title}</h3>
             <p class="movieDescription">${movie[4].overview}</p>
@@ -302,14 +286,16 @@ function renderMoviePage(movie, placement) {
         backdrop = `https://image.tmdb.org/t/p/original${movie.movieDetails.backdrop_path}`
     } else {
         backdrop = `https://image.tmdb.org/t/p/original${movie.movieDetails.poster_path}`
-
     }
 
     let watchlistBtn;
-    if (!sessionStorage.getItem("movie" + movie.movieDetails.id)) {
-        watchlistBtn = ` <button class="watchlistBtn "><i class="fa-solid fa-star"></i><p>Add to watchlist</p></button>`
-    } else {
+    let watchlist = JSON.parse(sessionStorage.getItem("watchlist"))
+
+
+    if (watchlist.some(mov => mov.movieDetails.id == movie.movieDetails.id)) {
         watchlistBtn = ` <button class="watchlistBtn  "><i class="fa-solid fa-star selected"></i><p>Remove from watchlist</p></button>`
+    } else {
+        watchlistBtn = ` <button class="watchlistBtn "><i class="fa-solid fa-star"></i><p>Add to watchlist</p></button>`
     }
     let movieGenre = []
     movie.movieDetails.genres.forEach(genre => {
@@ -321,7 +307,6 @@ function renderMoviePage(movie, placement) {
     movie.movieCredits.crew.forEach(crewMember => {
         if (crewMember.department === "Directing") {
             directors.push(crewMember)
-
         }
     })
     let directorsContent = [];
@@ -339,12 +324,12 @@ function renderMoviePage(movie, placement) {
                     <p>${director.department}</p>
                 </div>`
     })
+
     // ACTORS
     let actors = []
     movie.movieCredits.cast.forEach(castMember => {
         if (castMember.known_for_department === "Acting") {
             actors.push(castMember)
-
         }
     })
     let actorsContent = [];
@@ -374,7 +359,6 @@ function renderMoviePage(movie, placement) {
     //     })
 
     placement.innerHTML = `
-    
 <img src="${backdrop}" alt="An image from the movie ${movie.title}"
             class="fullWidth backdrop">
         <section>
@@ -426,15 +410,66 @@ function renderMoviePage(movie, placement) {
     watchlistBtnEl.addEventListener("click", () => {
 
         if (!watchlistIndicatorEl.classList.contains("selected")) {
-            console.log(watchlistBtnEl)
             watchlistIndicatorEl.classList.add("selected")
-            sessionStorage.setItem("movie" + movie.movieDetails.id, JSON.stringify(movie))
 
+            let list = sessionStorage.getItem("watchlist")
+            if (list === null)
+                list = []
+            else
+                list = JSON.parse(list)
+
+            list.push(movie)
+
+            sessionStorage.setItem("watchlist", JSON.stringify(list))
+            watchlistBtnEl.innerHTML = ` <i class="fa-solid fa-star selected"></i><p>Remove from watchlist</p>`
         } else {
             watchlistIndicatorEl.classList.remove("selected")
+            let list = sessionStorage.getItem("watchlist")
+            list = JSON.parse(list)
+            // Removes the current movie from the list, by filtering it away since all the others
+            // doesn't match
+            list = list.filter(mov => mov.movieDetails.id != movie.movieDetails.id)
+
+            sessionStorage.setItem('watchlist', JSON.stringify(list))
             sessionStorage.removeItem("movie" + movie.movieDetails.id)
+            watchlistBtnEl.innerHTML = ` <i class="fa-solid fa-star"></i><p>Add to watchlist</p>`
 
         }
     })
+
+}
+
+// WATCHLIST
+
+if (watchlistEl) {
+    let watchlist = JSON.parse(sessionStorage.getItem("watchlist"))
+
+    let actionMovies = watchlist.filter(mov => mov.movieDetails.genres.some(gen => gen.id === 28)).map(mov => mov.movieDetails)
+    renderMovieCard(actionMovies, actionGenreContainerEl)
+
+    let comedyMovies = watchlist.filter(mov => mov.movieDetails.genres.some(gen => gen.id === 35)).map(mov => mov.movieDetails)
+    renderMovieCard(comedyMovies, comedyGenreContainerEl)
+
+    let crimeMovies = watchlist.filter(mov => mov.movieDetails.genres.some(gen => gen.id === 80)).map(mov => mov.movieDetails)
+    renderMovieCard(crimeMovies, crimeGenreContainerEl)
+
+    let documentaryMovies = watchlist.filter(mov => mov.movieDetails.genres.some(gen => gen.id === 99)).map(mov => mov.movieDetails)
+    renderMovieCard(documentaryMovies, documentaryGenreContainerEl)
+
+    let dramaMovies = watchlist.filter(mov => mov.movieDetails.genres.some(gen => gen.id === 18)).map(mov => mov.movieDetails)
+    renderMovieCard(dramaMovies, dramaGenreContainerEl)
+
+    let horrorMovies = watchlist.filter(mov => mov.movieDetails.genres.some(gen => gen.id === 27)).map(mov => mov.movieDetails)
+    renderMovieCard(horrorMovies, horrorGenreContainerEl)
+
+    let romanceMovies = watchlist.filter(mov => mov.movieDetails.genres.some(gen => gen.id === 10749)).map(mov => mov.movieDetails)
+    renderMovieCard(romanceMovies, romanceGenreContainerEl)
+
+    let thrillerMovies = watchlist.filter(mov => mov.movieDetails.genres.some(gen => gen.id === 53)).map(mov => mov.movieDetails)
+    renderMovieCard(thrillerMovies, thrillerGenreContainerEl)
+
+    let warMovies = watchlist.filter(mov => mov.movieDetails.genres.some(gen => gen.id === 10752)).map(mov => mov.movieDetails)
+    renderMovieCard(warMovies, warGenreContainerEl)
+
 
 }

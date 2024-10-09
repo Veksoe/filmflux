@@ -362,7 +362,6 @@ a .btn:hover {
 }
 
 /* MOVIE CARD  */
-
 .movieCard {
     display: block;
     height: 250px;
@@ -434,7 +433,6 @@ a .btn:hover {
         }
     }
 
-
     .movieInfo {
         display: grid;
         grid-template-columns: 1fr 1.7fr;
@@ -484,7 +482,7 @@ a .btn:hover {
     }
 
     h2 {
-        font-size: 1.5rem;
+        text-align: center;
     }
 
     .actionContainer,
@@ -509,7 +507,6 @@ a .btn:hover {
         }
     }
 }
-
 
 @media screen and (min-width: 1200px) {
 
@@ -544,7 +541,13 @@ a .btn:hover {
         a.active {
             text-decoration: underline;
         }
+
+        a:first-child {
+            border-right: 2px solid var(--secondaryColor);
+            padding-right: var(--gapSpacingDesktop);
+        }
     }
+
 
     h2 {
         font-size: 2.5rem;
@@ -553,8 +556,6 @@ a .btn:hover {
     header .logo h1 {
         font-size: 5rem;
     }
-
-
 
     .carouselContainer {
         height: 60vh;
@@ -632,7 +633,6 @@ a .btn:hover {
             transform: scale(.95);
         }
 
-
         .actionContainer,
         .comedyContainer,
         .crimeContainer,
@@ -665,8 +665,6 @@ a .btn:hover {
         .movieInfo {
             grid-template-columns: .5fr 1fr 1fr;
             gap: var(--gapSpacingDesktop);
-
-
 
             .movieMetadata {
                 grid-column: unset;
