@@ -9,9 +9,7 @@
     --primaryColor: #990000;
     --secondaryColor: #D2691E;
     --accentColor1: #eec6446c;
-    --accentColor2: #4C9085;
-    --interactableColor: darkSlateGrey;
-    --hoverButtonColor: dimGray;
+    --accentColor2: #eec644;
     --disableButtonColor: silver;
     --backgroundColor: #e9e5ce;
     --baseTextDarkColor: #292422;
@@ -68,6 +66,7 @@ header {
 main {
     display: grid;
     grid-template-columns: 15px repeat(4, 1fr) 15px;
+
 }
 
 section {
@@ -95,7 +94,7 @@ h6 {
 }
 
 h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
     text-align: center;
     color: var(--primaryColor);
 }
@@ -195,6 +194,12 @@ a .btn:hover {
             font-size: 1.3rem;
         }
 
+        h3 {
+            color: var(--baseTextLightColor);
+            padding: 8px 32px 0 32px;
+            font-size: 1.5rem;
+        }
+
     }
 
     .mobileMenuAnimation {
@@ -206,9 +211,6 @@ a .btn:hover {
         }
     }
 }
-
-
-
 
 
 /* CAROUSEL */
@@ -247,9 +249,6 @@ a .btn:hover {
             height: 100%;
             padding: 16px;
             border-radius: var(--borderRadius);
-
-
-            /* padding-right: 40%; */
 
             .movieTitle {
                 font-size: 1.4rem;
@@ -308,15 +307,20 @@ a .btn:hover {
         border: none;
         font-size: 1.3rem;
         padding: 6px 12px;
+        transition: .3s;
     }
 
 }
 
-/* MOVIE CARD */
+/* GENRE CONTAINER  */
 .genreContainer {
     margin: 10px 0;
     background: var(--accentColor1);
     padding: 15px;
+
+    .seeMore {
+        display: none;
+    }
 
     .actionContainer,
     .comedyContainer,
@@ -355,45 +359,46 @@ a .btn:hover {
         }
     }
 
-    .seeMore {
-        display: none;
+}
+
+/* MOVIE CARD  */
+
+.movieCard {
+    display: block;
+    height: 250px;
+    width: 100%;
+    text-decoration: none;
+    border-radius: var(--borderRadius);
+    box-shadow: var(--shadow);
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    transition: .3s;
+
+    .titleContainer {
+        background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+        height: 100%;
+        padding: 15px;
+        display: flex;
+        align-items: end;
+        justify-content: center;
+        border-radius: var(--borderRadius);
+
     }
 
-
-    .movieCard {
-        display: block;
-        height: 250px;
-        width: 100%;
-        text-decoration: none;
-        border-radius: var(--borderRadius);
-        box-shadow: var(--shadow);
-        background-position: center;
-        background-size: cover;
-
-        .titleContainer {
-            background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-            height: 100%;
-            padding: 15px;
-            display: flex;
-            align-items: end;
-            justify-content: center;
-            border-radius: var(--borderRadius);
-
-        }
-
-        h3 {
-            color: var(--baseTextLightColor);
-            font-size: 1.5rem;
-        }
+    h3 {
+        color: var(--baseTextLightColor);
+        font-size: 1.5rem;
     }
 }
+
 
 /* SINGULAR MOVIE PAGE */
 
 #moviePage {
     .backdrop {
         height: 50vh;
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
         border-radius: unset;
     }
 
@@ -406,11 +411,34 @@ a .btn:hover {
         font-size: 2.1rem;
     }
 
+    .watchlistBtn {
+        border: none;
+        background: none;
+        font-size: 2rem;
+        width: 100%;
+
+        i {
+            color: var(--accentColor1);
+            filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.575));
+            transition: .3s;
+        }
+
+        p {
+            font-size: .8rem;
+            display: inline;
+            margin-left: 8px;
+        }
+
+        .selected {
+            color: var(--secondaryColor);
+        }
+    }
+
+
     .movieInfo {
         display: grid;
         grid-template-columns: 1fr 1.7fr;
         gap: var(--gapSpacingMobile);
-
 
 
         .movieMetadata {
@@ -439,6 +467,7 @@ a .btn:hover {
         .actorCard {
             width: 125px;
             flex: 0 0 auto;
+            min-height: 250px;
 
             img {
 
@@ -448,14 +477,90 @@ a .btn:hover {
     }
 }
 
+/* WATCHLIST */
+.watchlist {
+    h1 {
+        margin-bottom: 0;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .actionContainer,
+    .comedyContainer,
+    .crimeContainer,
+    .documentaryContainer,
+    .dramaContainer,
+    .horrorContainer,
+    .romanceContainer,
+    .thrillerContainer,
+    .warContainer {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: var(--gapSpacingMobile);
+
+        .movieCard {
+            width: 170px;
+            flex: 0 0 auto;
+
+
+        }
+    }
+}
 
 
 @media screen and (min-width: 1200px) {
+
+    main {
+        grid-template-columns: 10% repeat(10, 1fr) 10%;
+        gap: var(--gapSpacingDesktop);
+    }
+
+    .mobileNav {
+        display: none;
+    }
+
+    .desktopNav {
+        display: flex;
+        gap: var(--gapSpacingDesktop);
+        justify-content: center;
+        align-items: center;
+        min-height: 70px;
+
+        a {
+            font-size: 1.4rem;
+            color: var(--baseTextLightColor);
+            text-decoration: none;
+            transition: .3s;
+        }
+
+        a:hover {
+            font-size: 1.6rem;
+            color: var(--accentColor2);
+        }
+
+        a.active {
+            text-decoration: underline;
+        }
+    }
+
+    h2 {
+        font-size: 2.5rem;
+    }
+
+    header .logo h1 {
+        font-size: 5rem;
+    }
+
+
+
     .carouselContainer {
-        height: 70vh;
+        height: 60vh;
 
         .carousel {
-            width: 65%;
+            width: 75%;
 
         }
 
@@ -468,13 +573,130 @@ a .btn:hover {
             margin-left: 25%;
 
         }
+
+        button {
+            font-size: 2rem;
+        }
+
+        button:hover {
+            color: var(--secondaryColor);
+            transform: scale(1.2);
+        }
+
+        a .movieInfo {
+            background: linear-gradient(to right, rgba(0, 0, 0, .8) 40%, rgba(0, 0, 0, 0) 100%);
+            width: 100%;
+            height: 100%;
+            padding: 100px;
+            padding-right: 60%;
+
+            .movieTitle {
+                font-size: 2rem;
+            }
+
+            .movieDescription {
+                display: block;
+            }
+        }
     }
 
-    /* 
-    .seeMore {
-        grid-column: 1/-1;
-        width: 50%;
-        margin: 10px auto;
-    } */
+    .genreContainer {
+        padding: 25px 10%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: end;
+        column-gap: var(--gapSpacingDesktop);
 
+
+        .genreHeader {
+            width: 20%;
+        }
+
+        .seeMore {
+            grid-column: 1/-1;
+            padding: 10px 18px;
+            margin: 10px;
+            justify-items: end;
+            display: block;
+            border-radius: var(--borderRadius);
+            border: none;
+            box-shadow: var(--shadow);
+            background: var(--accentColor2);
+            font-size: .8rem;
+            transition: .3s;
+        }
+
+        .seeMore:hover {
+            background: var(--accentColor1);
+            transform: scale(.95);
+        }
+
+
+        .actionContainer,
+        .comedyContainer,
+        .crimeContainer,
+        .documentaryContainer,
+        .dramaContainer,
+        .horrorContainer,
+        .romanceContainer,
+        .thrillerContainer,
+        .warContainer {
+            display: flex;
+            width: calc(100% - 20% - var(--gapSpacingDesktop));
+        }
+    }
+
+    .movieCard:hover {
+        transform: rotate(2deg) scale(.98)
+    }
+
+    #moviePage {
+        .backdrop {
+            height: 65vh;
+        }
+
+        .movieTitle {
+            width: 80%;
+            font-size: 3rem;
+            bottom: 20vh;
+        }
+
+        .movieInfo {
+            grid-template-columns: .5fr 1fr 1fr;
+            gap: var(--gapSpacingDesktop);
+
+
+
+            .movieMetadata {
+                grid-column: unset;
+                border-top: unset;
+                border-left: 2px solid var(--secondaryColor);
+                padding: 0 var(--gapSpacingDesktop);
+
+                display: block;
+
+                .watchlistBtn {
+                    width: unset;
+                    margin-bottom: 20px;
+
+                    i:hover {
+                        transform: rotate(10deg) scale(.9);
+                    }
+                }
+            }
+        }
+
+        h2 {
+            text-align: left;
+        }
+
+        .directorSection {
+            grid-column: 2/7;
+        }
+
+        .actorSection {
+            grid-column: 7/12;
+        }
+    }
 }
