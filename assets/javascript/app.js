@@ -296,6 +296,15 @@ function initCarousel(carouselId) {
 // SINGULAR MOVIE PAGE
 function renderMoviePage(movie, placement) {
 
+    // BACKDROP FALLBACK
+    let backdrop;
+    if (movie.movieDetails.backdrop_path) {
+        backdrop = `https://image.tmdb.org/t/p/original${movie.movieDetails.backdrop_path}`
+    } else {
+        backdrop = `https://image.tmdb.org/t/p/original${movie.movieDetails.poster_path}`
+
+    }
+
     let watchlistBtn;
     if (!sessionStorage.getItem("movie" + movie.movieDetails.id)) {
         watchlistBtn = ` <button class="watchlistBtn "><i class="fa-solid fa-star"></i><p>Add to watchlist</p></button>`
@@ -366,7 +375,7 @@ function renderMoviePage(movie, placement) {
 
     placement.innerHTML = `
     
-<img src="https://image.tmdb.org/t/p/original${movie.movieDetails.backdrop_path}" alt="An image from the movie ${movie.title}"
+<img src="${backdrop}" alt="An image from the movie ${movie.title}"
             class="fullWidth backdrop">
         <section>
             <h1 class="movieTitle">${movie.movieDetails.title}</h1>
