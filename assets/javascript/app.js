@@ -9,7 +9,7 @@ if (apiAccessToken == null) {
 
 const currentlyPlayingContainerEl = document.querySelector(".currentlyPlayingContainer")
 const popularMoviesContainerEl = document.querySelector(".popularMoviesContainer")
-const genreContainerEl = document.querySelector(".genreContainer")
+const indexGenreContainerEl = document.querySelector(".index .genreContainer")
 const actionGenreContainerEl = document.querySelector(".actionContainer")
 const comedyGenreContainerEl = document.querySelector(".comedyContainer")
 const crimeGenreContainerEl = document.querySelector(".crimeContainer")
@@ -20,6 +20,8 @@ const romanceGenreContainerEl = document.querySelector(".romanceContainer")
 const thrillerGenreContainerEl = document.querySelector(".thrillerContainer")
 const warGenreContainerEl = document.querySelector(".warContainer")
 const moviePageEl = document.querySelector("#moviePage")
+
+let watchlist = [];
 
 
 /* Variable der kigger query-parametere i url/search-baren i det aktuelle vindue/tab */
@@ -41,7 +43,7 @@ if (popularMoviesContainerEl) {
     })
 }
 // FETCH MOVIES FROM DIFFERENT GENRES
-if (genreContainerEl) {
+if (indexGenreContainerEl) {
     fetchMovies("discover/movie?with_genres=28&page=2").then(data => {
         document.querySelector("#movieId-28 .genreHeader p").textContent = `(${data.total_results}  movies)`;
         renderMovieCard(data.results, actionGenreContainerEl, 4)
@@ -144,21 +146,30 @@ function fetchMovieDetails(movieId) {
         .catch(err => console.error(err));
 }
 
-// RENDER CONTENT
+// RENDER MOVIE CARD
 function renderMovieCard(movie, placement, amount = movie.length) {
-    for (let index = 0; index < amount; index++) {
 
+    for (let index = 0; index < amount; index++) {
         placement.innerHTML += `
           <a href="./movie-page.html?id=${movie[index].id}" class="movieCard"
-          style="background-image:url(https://image.tmdb.org/t/p/w200/${movie[index].poster_path});">
+          style="background-image:url(https://image.tmdb.org/t/p/w342/${movie[index].poster_path});">
           <div class="titleContainer">
             <h3>${movie[index].title}</h3>
           </div>
         </a>
     `
-
     }
+
+
+
 }
+
+// NAV MOBILE
+
+document.querySelector(".mobileNavBtn").addEventListener("click", () => {
+    document.querySelector(".menu").classList.toggle("mobileMenuAnimation")
+})
+
 function renderMovieCarouselContent(movie, placement, carouselId) {
 
     placement.innerHTML += `
@@ -202,12 +213,6 @@ function renderMovieCarouselContent(movie, placement, carouselId) {
     `;
     initCarousel(carouselId)
 }
-
-// NAV MOBILE
-
-document.querySelector(".mobileNavBtn").addEventListener("click", () => {
-    document.querySelector(".menu").classList.toggle("mobileMenuAnimation")
-})
 
 
 // CAROUSEL
@@ -291,6 +296,12 @@ function initCarousel(carouselId) {
 // SINGULAR MOVIE PAGE
 function renderMoviePage(movie, placement) {
 
+    let watchlistBtn;
+    if (!sessionStorage.getItem("movie" + movie.movieDetails.id)) {
+        watchlistBtn = ` <button class="watchlistBtn "><i class="fa-solid fa-star"></i><p>Add to watchlist</p></button>`
+    } else {
+        watchlistBtn = ` <button class="watchlistBtn  "><i class="fa-solid fa-star selected"></i><p>Remove from watchlist</p></button>`
+    }
     let movieGenre = []
     movie.movieDetails.genres.forEach(genre => {
         movieGenre.push(genre.name)
@@ -319,7 +330,7 @@ function renderMoviePage(movie, placement) {
                     <p>${director.department}</p>
                 </div>`
     })
-    // ACTROS
+    // ACTORS
     let actors = []
     movie.movieCredits.cast.forEach(castMember => {
         if (castMember.known_for_department === "Acting") {
@@ -342,6 +353,7 @@ function renderMoviePage(movie, placement) {
                 <p>as ${actor.character}</p>
             </div>`
     })
+
     // TRAILER
     // To do: Get access to YouTube API.
     let trailerContent = ``;
@@ -358,11 +370,13 @@ function renderMoviePage(movie, placement) {
             class="fullWidth backdrop">
         <section>
             <h1 class="movieTitle">${movie.movieDetails.title}</h1>
+            
             <div class="movieInfo">
-                <img src="https://image.tmdb.org/t/p/w342/${movie.movieDetails.poster_path}"
-                    alt="The movie poster from the movie ${movie.movieDetails.title}" class="moviePoster">
-                <p>${movie.movieDetails.overview}</p>
-                <div class="movieMetadata">
+            <img src="https://image.tmdb.org/t/p/w500/${movie.movieDetails.poster_path}"
+            alt="The movie poster from the movie ${movie.movieDetails.title}" class="moviePoster">
+            <p>${movie.movieDetails.overview}</p>
+            <div class="movieMetadata">
+           ${watchlistBtn}
                     <div>
                         <h3>Release date</h3>
                         <p>${movie.movieDetails.release_date}</p>
@@ -379,14 +393,14 @@ function renderMoviePage(movie, placement) {
 
             </div>
         </section>
-        <section>
+        <section class="directorSection">
             <h2>Directors</h2>
             <div class="directorContainer">
             ${directorsContent}
                 
             </div>
         </section>
-        <section>
+        <section class="actorSection">
             <h2>Actors</h2>
             <div class="actorContainer">
             ${actorsContent}
@@ -397,4 +411,21 @@ function renderMoviePage(movie, placement) {
         ${trailerContent}
         </section>
         `
+    const watchlistBtnEl = document.querySelector(".watchlistBtn")
+    const watchlistIndicatorEl = document.querySelector(".watchlistBtn i")
+
+    watchlistBtnEl.addEventListener("click", () => {
+
+        if (!watchlistIndicatorEl.classList.contains("selected")) {
+            console.log(watchlistBtnEl)
+            watchlistIndicatorEl.classList.add("selected")
+            sessionStorage.setItem("movie" + movie.movieDetails.id, JSON.stringify(movie))
+
+        } else {
+            watchlistIndicatorEl.classList.remove("selected")
+            sessionStorage.removeItem("movie" + movie.movieDetails.id)
+
+        }
+    })
+
 }
