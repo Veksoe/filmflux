@@ -15,7 +15,7 @@ function renderMoviePage(movie, placement) {
     } else {
         backdrop = `https://image.tmdb.org/t/p/original${movie.movieDetails.poster_path}`
     }
-
+    // WATCHLIST BUTTON
     let watchlistBtn;
     let watchlist = JSON.parse(localStorage.getItem("watchlist"))
 
@@ -28,6 +28,7 @@ function renderMoviePage(movie, placement) {
         watchlistBtn = ` <button class="watchlistBtn "><i class="fa-solid fa-star"></i><p>Add to watchlist</p></button>`
     }
 
+    // GENRES
     let movieGenre = []
     movie.movieDetails.genres.forEach(genre => {
         movieGenre.push(genre.name)
@@ -138,8 +139,9 @@ function renderMoviePage(movie, placement) {
     const watchlistBtnEl = document.querySelector(".watchlistBtn")
     const watchlistIndicatorEl = document.querySelector(".watchlistBtn i")
 
+    // WATCHLIST BUTTON FUNTIONALITY
     watchlistBtnEl.addEventListener("click", () => {
-
+        // checks if added to watchlist
         if (!watchlistIndicatorEl.classList.contains("selected")) {
             watchlistIndicatorEl.classList.add("selected")
 
