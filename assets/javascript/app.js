@@ -1,8 +1,10 @@
+
+
 // API ACCESS TOKEN //
-let apiAccessToken = sessionStorage.getItem("API Access Token")
+let apiAccessToken = localStorage.getItem("API Access Token")
 while (apiAccessToken == null || apiAccessToken == "") {
     apiAccessToken = prompt("Please paste an API Access Token to access the webpage")
-    sessionStorage.setItem("API Access Token", apiAccessToken)
+    localStorage.setItem("API Access Token", apiAccessToken)
 }
 // --------------  //
 
@@ -289,14 +291,17 @@ function renderMoviePage(movie, placement) {
     }
 
     let watchlistBtn;
-    let watchlist = JSON.parse(sessionStorage.getItem("watchlist"))
+    let watchlist = JSON.parse(localStorage.getItem("watchlist"))
 
-
+    if (!watchlist) {
+        watchlist = []
+    }
     if (watchlist.some(mov => mov.movieDetails.id == movie.movieDetails.id)) {
         watchlistBtn = ` <button class="watchlistBtn  "><i class="fa-solid fa-star selected"></i><p>Remove from watchlist</p></button>`
     } else {
         watchlistBtn = ` <button class="watchlistBtn "><i class="fa-solid fa-star"></i><p>Add to watchlist</p></button>`
     }
+
     let movieGenre = []
     movie.movieDetails.genres.forEach(genre => {
         movieGenre.push(genre.name)
@@ -412,7 +417,7 @@ function renderMoviePage(movie, placement) {
         if (!watchlistIndicatorEl.classList.contains("selected")) {
             watchlistIndicatorEl.classList.add("selected")
 
-            let list = sessionStorage.getItem("watchlist")
+            let list = localStorage.getItem("watchlist")
             if (list === null)
                 list = []
             else
@@ -420,18 +425,18 @@ function renderMoviePage(movie, placement) {
 
             list.push(movie)
 
-            sessionStorage.setItem("watchlist", JSON.stringify(list))
+            localStorage.setItem("watchlist", JSON.stringify(list))
             watchlistBtnEl.innerHTML = ` <i class="fa-solid fa-star selected"></i><p>Remove from watchlist</p>`
         } else {
             watchlistIndicatorEl.classList.remove("selected")
-            let list = sessionStorage.getItem("watchlist")
+            let list = localStorage.getItem("watchlist")
             list = JSON.parse(list)
             // Removes the current movie from the list, by filtering it away since all the others
             // doesn't match
             list = list.filter(mov => mov.movieDetails.id != movie.movieDetails.id)
 
-            sessionStorage.setItem('watchlist', JSON.stringify(list))
-            sessionStorage.removeItem("movie" + movie.movieDetails.id)
+            localStorage.setItem('watchlist', JSON.stringify(list))
+            localStorage.removeItem("movie" + movie.movieDetails.id)
             watchlistBtnEl.innerHTML = ` <i class="fa-solid fa-star"></i><p>Add to watchlist</p>`
 
         }
@@ -442,7 +447,7 @@ function renderMoviePage(movie, placement) {
 // WATCHLIST
 
 if (watchlistEl) {
-    let watchlist = JSON.parse(sessionStorage.getItem("watchlist"))
+    let watchlist = JSON.parse(localStorage.getItem("watchlist"))
 
     let actionMovies = watchlist.filter(mov => mov.movieDetails.genres.some(gen => gen.id === 28)).map(mov => mov.movieDetails)
     renderMovieCard(actionMovies, actionGenreContainerEl)
